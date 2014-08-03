@@ -1,0 +1,34 @@
+#ifndef __REGEX_PARSE_H
+#define __REGEX_PARSE_H
+
+#define MAX_SIG_LENGTH 128
+
+typedef unsigned short ushort;
+typedef unsigned char uchar;
+
+struct app_entry_t {
+	int	 appId;
+	char regex[MAX_SIG_LENGTH];
+	struct app_entry_t *next;
+};
+
+/*
+ nextTable:
+
+ 0 1 2 3 4 5 6 7 8 * * * * * * * * * * * *
+|<--------------alphabetSize-------------->|
+            
+			|<--startOffset
+
+ 0 = end state, 1 = id, 2 = user id, 3 = push_dfa_index
+ 4 = next dfa, 5 = dead state, 6 = dfa_start
+*/
+struct dfa_graph_t {
+	ushort stateNum;
+	ushort alphabetSize;
+	ushort startOffset;
+	uchar  alphabetTable[256];
+	ushort nextTable[1];
+};
+
+#endif

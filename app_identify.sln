@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "app_identify", "app_identify\app_identify.vcproj", "{73FC062B-7F19-4A13-936E-FECDB23F383E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{7251BC24-8850-482F-AFA5-4FCCBE3CCA5F} = {7251BC24-8850-482F-AFA5-4FCCBE3CCA5F}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "regexParse", "regexParse\regexParse.vcproj", "{7251BC24-8850-482F-AFA5-4FCCBE3CCA5F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{73FC062B-7F19-4A13-936E-FECDB23F383E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{73FC062B-7F19-4A13-936E-FECDB23F383E}.Debug|Win32.Build.0 = Debug|Win32
+		{73FC062B-7F19-4A13-936E-FECDB23F383E}.Release|Win32.ActiveCfg = Release|Win32
+		{73FC062B-7F19-4A13-936E-FECDB23F383E}.Release|Win32.Build.0 = Release|Win32
+		{7251BC24-8850-482F-AFA5-4FCCBE3CCA5F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7251BC24-8850-482F-AFA5-4FCCBE3CCA5F}.Debug|Win32.Build.0 = Debug|Win32
+		{7251BC24-8850-482F-AFA5-4FCCBE3CCA5F}.Release|Win32.ActiveCfg = Release|Win32
+		{7251BC24-8850-482F-AFA5-4FCCBE3CCA5F}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
