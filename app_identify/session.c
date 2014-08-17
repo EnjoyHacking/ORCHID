@@ -107,10 +107,10 @@ int destroy_dp_session_table()
 }
 
 #define IP2STRING(ip) \
-	((char*)&(ip))[0],   \
-	((char*)&(ip))[1],   \
-	((char*)&(ip))[2],   \
-	((char*)&(ip))[3]
+	((u_char*)&(ip))[0],   \
+	((u_char*)&(ip))[1],   \
+	((u_char*)&(ip))[2],   \
+	((u_char*)&(ip))[3]
 
 void dump_session_table()
 {

@@ -56,7 +56,7 @@ public:
     compile_assert<(static_cast<id_type>(~0) > 0)>
         _valid_id_type;
 
-    basic_rules(const std::size_t flags_ = dot_not_newline) :
+    basic_rules(const std::size_t flags_ = icase) :
         _valid_id_type(),
         _statemap(),
         _macro_map(),
@@ -85,7 +85,7 @@ public:
         _next_dfas.clear();
         _pushes.clear();
         _pops.clear();
-        _flags = dot_not_newline;
+        _flags = icase;
         _locale = std::locale();
         _lexer_state_names.clear();
         push_state(initial());

@@ -39,7 +39,7 @@ struct dfa_graph_t* load_sig()
 	apps = new_app_sig(1, "GET.*youku");
 	apps->next = new_app_sig(2, "GET.*tudou");
 
-	//Regex_Test(apps, "sdfsdfGETsdfhskdjfyoukudsflksdjflk");
+	Regex_Test(apps, "sdfsdfGETsdf\r\nhskdjfyoukudsflksdjflk");
 
 	return Regex_Parse(apps);
 }
