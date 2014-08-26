@@ -5,16 +5,16 @@
 
 #define LINE_LEN 16
 
-extern struct dfa_graph_t* load_sig();
+extern struct dfa_graph_t* load_sig(char *file);
 extern void graph_dump(struct dfa_graph_t *graph);
 extern void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_char *pktdata);
 
-extern struct dfa_graph_t *graph;
+extern struct dfa_graph_t *appgraph;
 
 int resource_init()
 {
-	graph = load_sig();
-	//graph_dump(graph);
+	load_sig("sig.conf");
+	//graph_dump(appgraph);
 
 	create_session_table();
 	

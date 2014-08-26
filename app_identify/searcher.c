@@ -36,8 +36,10 @@ int dfaSearch(struct dfa_graph_t *graph, uchar *Text, int len)
 		if (curState[0]) {
 			printf("Match %d, offset %d, state %d\n",
 				curState[1], cur-Text, (curState-beginstate)/alphabetSize);
+			return curState[1];
 		}
 		cur++;
 	}
+
 	return 0;
 }

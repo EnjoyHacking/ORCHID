@@ -2,7 +2,7 @@
 #include "session.h"
 
 extern int dfaSearch(struct dfa_graph_t *graph, uchar *Text, int len);
-extern struct dfa_graph_t *graph;
+extern struct dfa_graph_t *appgraph;
 
 void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_char *pktdata)
 {
@@ -62,7 +62,7 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_cha
 
 	if (sess->app_id == 0) {
 		if (payload_len > 0)
-			appid = dfaSearch(graph, payload, payload_len);
+			sess->app_id = dfaSearch(appgraph, payload, payload_len);
 	}
 
 	return;

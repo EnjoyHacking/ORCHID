@@ -166,6 +166,26 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath=".\loader\application.c"
+				>
+			</File>
+			<File
+				RelativePath=".\loader\application.h"
+				>
+			</File>
+			<File
+				RelativePath=".\loader\key_pair.c"
+				>
+			</File>
+			<File
+				RelativePath=".\loader\key_pair.h"
+				>
+			</File>
+			<File
+				RelativePath=".\loader\lex.sig.c"
+				>
+			</File>
+			<File
 				RelativePath=".\main.c"
 				>
 			</File>
@@ -190,7 +210,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\sig_loader.c"
+				RelativePath=".\loader\sig.tab.c"
+				>
+			</File>
+			<File
+				RelativePath=".\loader\sig.tab.h"
+				>
+			</File>
+			<File
+				RelativePath=".\loader\sig_loader.c"
 				>
 			</File>
 		</Filter>

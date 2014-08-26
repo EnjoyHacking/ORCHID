@@ -8,14 +8,14 @@
 extern "C" {
 #endif
 
-__declspec(dllexport) struct dfa_graph_t *Regex_Parse(struct app_entry_t *apps)
+__declspec(dllexport) struct dfa_graph_t *Regex_Parse(struct app_entry_list *apps)
 {
 	lexertl::rules rules;
     lexertl::state_machine sm;
+	struct app_entry_t *app;
 
-	while(apps) {
-		rules.push(apps->regex, apps->appId);
-		apps = apps->next;
+	STAILQ_FOREACH(app, apps, next) {
+		rules.push(app->regex, app->appId);
 	}
 
 	lexertl::generator::build(rules, sm);
@@ -23,14 +23,14 @@ __declspec(dllexport) struct dfa_graph_t *Regex_Parse(struct app_entry_t *apps)
 	return lexertl::generator::reassemble(sm);
 }
 
-__declspec(dllexport) void Regex_Test(struct app_entry_t *apps, char *Text)
+__declspec(dllexport) void Regex_Test(struct app_entry_list *apps, char *Text)
 {
 	lexertl::rules rules;
     lexertl::state_machine sm;
+	struct app_entry_t *app;
 
-	while(apps) {
-		rules.push(apps->regex, apps->appId);
-		apps = apps->next;
+	STAILQ_FOREACH(app, apps, next) {
+		rules.push(app->regex, app->appId);
 	}
 
 	lexertl::generator::build(rules, sm);
