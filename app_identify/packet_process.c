@@ -2,6 +2,7 @@
 #include "session.h"
 
 extern int dfaSearch(struct dfa_graph_t *graph, uchar *Text, int len);
+extern int httpParse(struct dfa_graph_t *graph, uchar *Text, int len);
 extern struct dfa_graph_t *appgraph;
 
 void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_char *pktdata)
@@ -11,16 +12,14 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_cha
 	udp_header *uh;
 	tcp_header *th;
 	u_short sport,dport;
-	ip_address *sip, *dip;
 	session_t *sess;
 	u_char *payload;
 	int payload_len = pkthdr->caplen;
-	int appid;
 
 	/*
 	* unused parameters
 	*/
-	(VOID)(param);
+	(void)(param);
 
 	if (*(pktdata + 12) != 0x08 || *(pktdata + 13) != 0x00) {
 		/* TODO: Support vlan ? */
@@ -31,9 +30,6 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_cha
 	ih = (ip_header *) (pktdata + 14);
 	payload_len -= 14;
 
-
-	sip = (ip_address *)&ih->saddr;
-	dip = (ip_address *)&ih->daddr;
 	/* retireve the position of the udp header */
 	ip_len = (ih->ver_ihl & 0xf) * 4;
 	payload_len -= ip_len;
@@ -62,7 +58,7 @@ void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_cha
 
 	if (sess->app_id == 0) {
 		if (payload_len > 0)
-			sess->app_id = dfaSearch(appgraph, payload, payload_len);
+			sess->app_id = httpParse(appgraph, payload, payload_len);
 	}
 
 	return;

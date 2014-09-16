@@ -1,48 +1,20 @@
 #include <string.h>
-#include <stdlib.h>
 #include "application.h"
 
-#ifdef WIN32
-#define inline 
-#endif
-
-inline struct sig_list* create_sig_list()
+struct app_entry_t *new_app_sig(int id, char *sig)
 {
-    struct sig_list *head =
-        (struct sig_list *)malloc(sizeof(struct sig_list));
+	struct app_entry_t *entry;
 
-    if (head != NULL) {
-        STAILQ_INIT(head);
-    }
+	if (strlen(sig) >= MAX_SIG_LENGTH)
+		return NULL;
 
-    return head;
-}
+	entry = (struct app_entry_t *)malloc(sizeof(struct app_entry_t));
 
-inline struct sig_s* create_sig()
-{
-    struct sig_s *sig =
-        (struct sig_s *)malloc(sizeof(struct sig_s));
+	if (entry) {
+		entry->appId = id;
+		strcpy(entry->regex, sig);
+	}
 
-    return sig;
-}
-
-inline struct application_s* create_application()
-{
-    struct application_s *app =
-        (struct application_s *)malloc(sizeof(struct application_s));
-
-    return app;
-}
-
-inline struct application_list* create_application_list()
-{
-    struct application_list *head =
-        (struct application_list *)malloc(sizeof(struct application_list));
-
-    if (head != NULL) {
-        STAILQ_INIT(head);
-    }
-
-    return head;
+	return entry;
 }
 

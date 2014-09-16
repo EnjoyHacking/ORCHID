@@ -162,7 +162,7 @@ public:
 		const id_type *lookup_ = &internals_._lookup[0]->front();
 		const id_type dfa_alphabet_ = internals_._dfa_alphabet[0];
 		const id_type *dfa_ = &internals_._dfa[0]->front();
-		id_type total_size = internals_._dfa[0]->size();
+		id_type total_size = internals_._dfa[0]->size(); 
 		id_type state_size = total_size/dfa_alphabet_;
 		struct dfa_graph_t *graph = (struct dfa_graph_t *)malloc(
 			sizeof(struct dfa_graph_t) + total_size*sizeof(ushort));
@@ -174,6 +174,7 @@ public:
 			ushort offset = lexertl::dead_state_index;
 
 			dfa_ += dfa_alphabet_;/*skip state 0*/
+			total_size -= dfa_alphabet_;
 			graph->stateNum = state_size - 1;
 			graph->alphabetSize = dfa_alphabet_;
 			graph->startOffset = offset;
@@ -182,12 +183,19 @@ public:
 				alphabet_table[a] = lookup_[a] - offset;
 			}
 			
-			
+			/* 
+				skip state 0 
+				and id-user_id for 4 Bytes ID
+			*/
 			for(std::size_t i = 0 ; i < total_size; i++){
 				if ( i%dfa_alphabet_ >= offset && dfa_[i] > 0) {
 					state[i] = dfa_[i] - 1;
 				} else {
-					state[i] = dfa_[i];
+					if (i%dfa_alphabet_ == 1) {
+						*((u_int *)(state + i)) = dfa_[i];
+					}
+					else if (i%dfa_alphabet_ != 2)
+						state[i] = dfa_[i];
 				}
 			}
 		} else{

@@ -12,6 +12,9 @@ __declspec(dllexport) void Regex_Test(struct app_entry_list *apps, char *Text);
 #ifdef __cplusplus
 }
 #endif
+extern void init_http_sig(struct app_entry_list *app_list);
+extern int parse_http_sig(struct app_entry_list *app_list, char *sig, int sig_index, int type);
+extern void http_dump_sig_entrys(struct app_entry_list *app_list);
 
 extern FILE* yyin;
 extern int yyparse();
@@ -20,8 +23,7 @@ struct application_list* app_root = NULL;
 struct dfa_graph_t *appgraph;
 struct app_entry_list app_list;
 
-
-void loadApp(char *file)
+void loadApp(const char *file)
 {
   yyin = fopen(file, "r");
 
@@ -55,52 +57,6 @@ void dump_applications(struct application_list* root)
             printf("\t\tmatch    : %s\n", sig->match);
         }
     }
-}
-
-struct app_entry_t *new_app_sig(int id, char *sig)
-{
-	struct app_entry_t *entry;
-
-	if (strlen(sig) >= MAX_SIG_LENGTH)
-		return NULL;
-
-	entry = (struct app_entry_t *)malloc(sizeof(struct app_entry_t));
-
-	if (entry) {
-		entry->appId = id;
-		strcpy(entry->regex, sig);
-	}
-
-	return entry;
-}
-
-struct dfa_graph_t *parseApp(struct application_list* root)
-{
-	struct application_s *app = NULL;
-    struct sig_list *sigs = NULL;
-    struct sig_s *sig = NULL;
-	struct app_entry_t *sig_entry;
-
-	STAILQ_INIT(&app_list);
-    STAILQ_FOREACH(app, root, next) {
-        sigs = app->sigs;
-        STAILQ_FOREACH(sig, sigs, next) {
-			if (sig->type == 3) { /* now only parse regex type sig */
-                sig_entry = new_app_sig(sig->id, sig->match);
-				STAILQ_INSERT_TAIL(&app_list, sig_entry, next);
-			}
-		}
-	}
-
-	return Regex_Parse(&app_list);
-}
-
-int load_sig(char *file)
-{
-    loadApp(file);
-    //dump_applications(app_root);
-	appgraph = parseApp(app_root);
-	return 0;
 }
 
 void graph_dump(struct dfa_graph_t *graph)
@@ -138,3 +94,35 @@ void graph_dump(struct dfa_graph_t *graph)
 	}
 
 }
+
+struct dfa_graph_t *parseApplication(struct application_list* root)
+{
+	struct application_s *app = NULL;
+    struct sig_list *sigs = NULL;
+    struct sig_s *sig = NULL;
+
+	STAILQ_INIT(&app_list);
+    init_http_sig(&app_list);
+    STAILQ_FOREACH(app, root, next) {
+        sigs = app->sigs;
+        STAILQ_FOREACH(sig, sigs, next) {
+			if (sig->proto == PROTOCOL_HTTP) {
+                parse_http_sig(&app_list, sig->match,
+                        sig->id, sig->type);
+            }
+		}
+	}
+
+    //http_dump_sig_entrys(&app_list);
+	return Regex_Parse(&app_list);
+}
+
+int load_sig(const char *file)
+{
+    loadApp(file);
+    //dump_applications(app_root);
+	appgraph = parseApplication(app_root);
+    //graph_dump(appgraph);
+	return 0;
+}
+

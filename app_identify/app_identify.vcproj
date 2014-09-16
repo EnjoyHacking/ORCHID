@@ -174,7 +174,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\loader\key_pair.c"
+				RelativePath=".\loader\http_parse.c"
+				>
+			</File>
+			<File
+				RelativePath=".\searcher\http_search.c"
 				>
 			</File>
 			<File
@@ -198,7 +202,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\searcher.c"
+				RelativePath=".\searcher\searcher.c"
 				>
 			</File>
 			<File

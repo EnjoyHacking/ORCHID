@@ -2,11 +2,9 @@
 #define __REGEX_PARSE_H
 
 #include <queue.h>
+#include <types.h>
 
 #define MAX_SIG_LENGTH 128
-
-typedef unsigned short ushort;
-typedef unsigned char uchar;
 
 struct app_entry_t {
 	int	 appId;

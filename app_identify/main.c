@@ -5,17 +5,15 @@
 
 #define LINE_LEN 16
 
-extern struct dfa_graph_t* load_sig(char *file);
+extern int load_sig(const char *file);
 extern void graph_dump(struct dfa_graph_t *graph);
 extern void packet_handler(u_char *param, const struct pcap_pkthdr *pkthdr, const u_char *pktdata);
 
 extern struct dfa_graph_t *appgraph;
 
-int resource_init()
+int resource_init(const char *file)
 {
-	load_sig("sig.conf");
-	//graph_dump(appgraph);
-
+	load_sig(file);
 	create_session_table();
 	
 	return 0;
@@ -27,24 +25,23 @@ int main(int argc, char **argv)
 	char errbuf[PCAP_ERRBUF_SIZE];
 	struct pcap_pkthdr *header;
 	const u_char *pkt_data;
-	u_int i=0;
 	int res;
 
-	if(argc != 2)
+	if(argc != 3)
 	{	
-		printf("usage: %s filename", argv[0]);
+		printf("usage: %s sig.conf *.pcap\n", argv[0]);
 		return -1;
 
 	}
 
-	resource_init();
+	resource_init(argv[1]);
 
 	/* Open the capture file */
-	if ((fp = pcap_open_offline(argv[1],			// name of the device
+	if ((fp = pcap_open_offline(argv[2],			// name of the device
 						 errbuf					// error buffer
 						 )) == NULL)
 	{
-		fprintf(stderr,"\nUnable to open the file %s.\n", argv[1]);
+		fprintf(stderr,"\nUnable to open the file %s.\n", argv[2]);
 		return -1;
 	}
 	

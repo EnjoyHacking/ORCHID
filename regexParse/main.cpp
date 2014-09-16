@@ -14,12 +14,15 @@ __declspec(dllexport) struct dfa_graph_t *Regex_Parse(struct app_entry_list *app
     lexertl::state_machine sm;
 	struct app_entry_t *app;
 
+	/* icase = 1, dot_not_newline = 2, skip_ws = 4, match_zero_len = 8 */
+	rules.flags(0);
 	STAILQ_FOREACH(app, apps, next) {
 		rules.push(app->regex, app->appId);
 	}
 
 	lexertl::generator::build(rules, sm);
 	//sm.minimise();
+	//lexertl::debug::dump(sm, std::cout);
 	return lexertl::generator::reassemble(sm);
 }
 
